@@ -1,10 +1,13 @@
 package edu.example.visualizer;
 
-//Уникальный идентификатор артефакта Maven: группа, имя, версия.
+/** Уникальный идентификатор артефакта Maven: группа, имя, версия. */
 public record Coordinates(String groupId, String artifactId, String version) {
+    private static final int COORDINATE_PARTS = 3;
+
     public Coordinates {
         if (!valid(groupId) || !valid(artifactId) || !valid(version)) {
-            throw new IllegalArgumentException("Неверные координаты Maven: " + groupId + ":" + artifactId + ":" + version);
+            throw new IllegalArgumentException("Неверные координаты Maven: "
+                    + groupId + ":" + artifactId + ":" + version);
         }
     }
 
@@ -14,7 +17,9 @@ public record Coordinates(String groupId, String artifactId, String version) {
 
     public static Coordinates parse(String value) {
         String[] parts = value.split(":", -1);
-        if (parts.length != 3) throw new IllegalArgumentException("Ожидается groupId:artifactId:version: " + value);
+        if (parts.length != COORDINATE_PARTS) {
+            throw new IllegalArgumentException("Ожидается groupId:artifactId:version: " + value);
+        }
         return new Coordinates(parts[0], parts[1], parts[2]);
     }
 

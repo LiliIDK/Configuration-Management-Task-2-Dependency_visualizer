@@ -30,9 +30,18 @@ public final class GraphBuilder {
         return graph;
     }
 
+    /**
+     * BFS обычно пишут через while (!queue.isEmpty()). По условию задания
+     * вместо while используем РЕКУРСИЮ: один вызов = обработка ОДНОЙ вершины.
+     *
+     * Очередь обеспечивает BFS-порядок: сначала все соседи корня, затем
+     * соседи этих соседей и т.д. Если здесь рекурсивно вызвать обработку
+     * каждого соседа, получился бы DFS, а не BFS!
+     */
     private void bfsRecursive() throws Exception {
         if (queue.isEmpty()) return;
-        Coordinates current = queue.remove(); // Самый старый элемент очереди.
+
+        Coordinates current = queue.remove();
         System.out.println("Исследуем: " + current);
         String pom = client.fetchPom(current);
         for (Coordinates dependency : parser.directDependencies(pom, current, client)) {

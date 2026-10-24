@@ -30,7 +30,8 @@ public class ParentResolutionTest {
         server.start();
         try {
             MavenClient client = new MavenClient(URI.create("http://127.0.0.1:" + server.getAddress().getPort() + "/"));
-            List<Coordinates> dependencies = new PomParser().directDependencies(child, new Coordinates("example", "app", "1"), client);
+            Coordinates root = new Coordinates("example", "app", "1");
+            List<Coordinates> dependencies = new PomParser().directDependencies(child, root, client);
             if (!dependencies.equals(List.of(new Coordinates("example", "lib", "7.3"))))
                 throw new AssertionError(dependencies);
             System.out.println("ParentResolutionTest OK");

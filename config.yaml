@@ -1,7 +1,14 @@
-package_name: "org.springframework:spring-webmvc:6.1.14"
+# Maven-координаты: groupId:artifactId:version
+package_name: "com.google.guava:guava:33.4.0-jre"
 repository_url: "https://repo.maven.apache.org/maven2"
-output_file: "output/springframework.png"
+output_file: "output/guava.png"
+# Пустая строка означает «ничего не фильтровать».
 filter: ""
+# Ограничение для учебной демонстрации, чтобы случайно не обходить огромный граф.
 max_packages: 200
+
+# Вывести метод GET, полный URL, заголовок Accept и HTTP-статус.
 log_requests: true
+# Вывести полный XML каждого POM, который передаётся парсеру.
+# Если строку убрать, значение будет таким же, как log_requests.
 log_pom: true

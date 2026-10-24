@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/** Перевод Java-графа в текст Mermaid и запуск отдельной утилиты mmdc. */
 public final class MermaidVisualizer {
     public String toMermaid(DependencyGraph graph) {
         StringBuilder result = new StringBuilder("flowchart TD\n");
@@ -33,29 +34,15 @@ public final class MermaidVisualizer {
         Path mmd = absolutePng.resolveSibling(name.substring(0, name.length() - 4) + ".mmd");
         Files.writeString(mmd, toMermaid(graph), StandardCharsets.UTF_8);
         System.out.println("Mermaid-текст: " + mmd);
+
         Process process;
-
         try {
-            String mermaidPath = "C:\\Users\\Vio\\AppData\\Roaming\\npm\\mmdc.cmd";
-            ProcessBuilder processBuilder = new ProcessBuilder(
-                    mermaidPath,
-                    "-i", mmd.toString(),
-                    "-o", absolutePng.toString()
-            );
-            Map<String, String> environment = processBuilder.environment();
-            String nodePath = "C:\\Program Files\\nodejs";
-            String currentPath = environment.getOrDefault(
-                    "Path",
-                    environment.getOrDefault("PATH", "")
-            );
-
-            environment.put("Path", nodePath + ";" + currentPath);
-            process = processBuilder.inheritIO().start();
-
+            String command = System.getProperty("os.name").toLowerCase().contains("win")
+                    ? "mmdc.cmd" : "mmdc";
+            process = new ProcessBuilder(command, "-i", mmd.toString(),
+                    "-o", absolutePng.toString()).inheritIO().start();
         } catch (IOException e) {
-            System.err.println(
-                    "Ошибка запуска Mermaid CLI: " + e.getMessage()
-            );
+            System.err.println("Mermaid CLI (mmdc) не найден. Файл .mmd уже создан.");
             throw e;
         }
         int code = process.waitFor();

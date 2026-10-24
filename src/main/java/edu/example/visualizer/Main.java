@@ -2,6 +2,7 @@ package edu.example.visualizer;
 
 import java.nio.file.Path;
 
+/** Точка входа обычного консольного Java-приложения. Spring Boot здесь нет. */
 public final class Main {
     public static void main(String[] args) {
         try {
@@ -12,7 +13,9 @@ public final class Main {
             System.out.println("Фильтр: " + config.filter());
             System.out.println("Лог HTTP-запросов: " + config.logRequests());
             System.out.println("Лог XML POM: " + config.logPom());
-            GraphBuilder builder = new GraphBuilder(new MavenClient(config.repositoryUrl(), config.logRequests(), config.logPom()), new PomParser(), config);
+            MavenClient client = new MavenClient(
+                    config.repositoryUrl(), config.logRequests(), config.logPom());
+            GraphBuilder builder = new GraphBuilder(client, new PomParser(), config);
             DependencyGraph graph = builder.build();
             System.out.println("Вершин графа: " + graph.size());
             for (var e : graph.adjacency().entrySet()) {

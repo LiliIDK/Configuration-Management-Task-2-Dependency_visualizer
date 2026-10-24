@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * ключ — библиотека, значение — библиотеки, от которых она зависит.
+ * Список смежности: ключ — библиотека, значение — библиотеки, от которых она зависит.
  * LinkedHashMap/LinkedHashSet сохраняют порядок обнаружения вершин и рёбер.
  */
 public final class DependencyGraph {
@@ -18,7 +18,7 @@ public final class DependencyGraph {
     public void addEdge(Coordinates from, Coordinates to) {
         addVertex(from);
         addVertex(to);
-        edges.get(from).add(to); // Set не допускает повторяющихся стрелок.
+        edges.get(from).add(to);
     }
 
     public int size() { return edges.size(); }

@@ -1,0 +1,7 @@
+package_name: "org.springframework:spring-webmvc:6.1.14"
+repository_url: "https://repo.maven.apache.org/maven2"
+output_file: "output/springframework.png"
+filter: ""
+max_packages: 200
+log_requests: true
+log_pom: true

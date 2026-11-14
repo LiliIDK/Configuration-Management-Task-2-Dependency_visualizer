@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 public final class ConfigLoader {
+    private static final int MIN_QUOTED_LENGTH = 2;
     private static final int DEFAULT_MAX_PACKAGES = 200;
     private static final int MIN_PACKAGES = 1;
     private static final int MAX_PACKAGES = 10_000;
@@ -65,7 +66,7 @@ public final class ConfigLoader {
     private static String unquote(String value, String key) {
         if (value.startsWith("\"") || value.startsWith("'")) {
             char quote = value.charAt(0);
-            if (value.length() < 2 || value.charAt(value.length() - 1) != quote) {
+            if (value.length() < MIN_QUOTED_LENGTH || value.charAt(value.length() - 1) != quote) {
                 throw new IllegalArgumentException("Незакрытые кавычки для " + key);
             }
             return value.substring(1, value.length() - 1);
